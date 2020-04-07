@@ -5,7 +5,16 @@ import {persistStore} from 'redux-persist'
 
 import rootReducer from './root-reducer';
 
-const middlewares = [logger]
+const middlewares = []
+
+if(process.env.NODE_ENV === 'development'){
+    middlewares.push(logger)
+    // push logger into array when environment is dev
+}
+// create-react-app sets environment variable
+// can be called through calling "env"
+// "production",  "environment", or  "test"
+// yarn build -> switch "env" to 
 
 export const store = createStore(rootReducer,applyMiddleware(...middlewares))
 // persisted version of our store
