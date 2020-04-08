@@ -30,9 +30,10 @@ this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth =>{
             ...snapShot.data()
           })
         })
-      } else{ 
-        this.setState(userAuth)
-      }
+      } 
+        setCurrentUser(userAuth)
+        // key is collections
+      
   })
   // method from firebase.auth()
   // takes function where param is 

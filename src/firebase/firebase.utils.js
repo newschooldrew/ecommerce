@@ -41,6 +41,42 @@ const config = {
         return userRef;
       }
 
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) =>{
+    const collectionRef = firestore.collection(collectionKey);
+
+    const batch = firestore.batch();
+
+    objectsToAdd.forEach(obj =>{
+      const refObj = collectionRef.doc();
+      console.log(refObj)
+      // randomly generate ID
+      batch.set(refObj,obj)
+      // set that ID to each item in the object
+    })
+    return await batch.commit()
+}
+
+// map instead of an array
+export const convertCollectionsSnapshotToMap = (collections) =>{
+  // adding in desired fields to collection via snapshot
+    const transformedCollection = collections.docs.map(doc =>{
+      //gives you queried snapshot of collections
+        const {title, items} = doc.data()
+        return {
+          routeName:encodeURI(title.toLowerCase()),
+          id:doc.id,
+          title,
+          items
+        }
+      })
+     return transformedCollection.reduce((accumulator, collection) =>{
+        accumulator[collection.title.toLowerCase()] = collection;
+        return accumulator;
+      },{});
+}
+
+//converting it to object
+
   export const auth = firebase.auth();
   export const firestore  = firebase.firestore();
 
