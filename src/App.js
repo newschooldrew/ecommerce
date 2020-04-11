@@ -10,8 +10,7 @@ import HomePage from './pages/homepage/homepage.component'
 import ShopPage from './pages/shop/shop.component.jsx'
 import Header from './components/header/header.component.jsx'
 import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component.jsx'
-import {auth, createUserProfileDocument} from './firebase/firebase.utils'
-import { setCurrentUser } from './redux/user/user.actions'
+import { checkUserSession } from './redux/user/user.actions'
 import CheckoutPage from './pages/checkout/checkout.component';
 
 class App extends React.Component {
@@ -19,22 +18,23 @@ class App extends React.Component {
 unsubscribeFromAuth = null;
 
 componentDidMount(){
-  const {setCurrentUser} = this.props;
-this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth =>{
-  if(userAuth){
-    const userRef = await createUserProfileDocument(userAuth);
+  const {checkUserSession} = this.props;
+  checkUserSession()
+// this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth =>{
+//   if(userAuth){
+//     const userRef = await createUserProfileDocument(userAuth);
 
-    userRef.onSnapshot(snapShot => {
-        this.props.setCurrentUser({
-            id:snapShot.id,
-            ...snapShot.data()
-          })
-        })
-      } 
-        setCurrentUser(userAuth)
+//     userRef.onSnapshot(snapShot => {
+//         this.props.setCurrentUser({
+//             id:snapShot.id,
+//             ...snapShot.data()
+//           })
+//         })
+//       } 
+//         setCurrentUser(userAuth)
         // key is collections
       
-  })
+  // })
   // method from firebase.auth()
   // takes function where param is 
   // what the user state is of the 
@@ -81,7 +81,7 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  checkUserSession: user => dispatch(checkUserSession())
   // way for redux to know the object you're 
   // passing is an action object to pass
   // to every reducer
