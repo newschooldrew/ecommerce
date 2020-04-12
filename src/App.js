@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useEffect} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux'
 import {createStructuredSelector} from 'reselect'
@@ -13,43 +13,12 @@ import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.com
 import { checkUserSession } from './redux/user/user.actions'
 import CheckoutPage from './pages/checkout/checkout.component';
 
-class App extends React.Component {
+const App = ({currentUser, checkUserSession}) => {
 
-unsubscribeFromAuth = null;
-
-componentDidMount(){
-  const {checkUserSession} = this.props;
+useEffect(() =>{
   checkUserSession()
-// this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth =>{
-//   if(userAuth){
-//     const userRef = await createUserProfileDocument(userAuth);
+},[checkUserSession])
 
-//     userRef.onSnapshot(snapShot => {
-//         this.props.setCurrentUser({
-//             id:snapShot.id,
-//             ...snapShot.data()
-//           })
-//         })
-//       } 
-//         setCurrentUser(userAuth)
-        // key is collections
-      
-  // })
-  // method from firebase.auth()
-  // takes function where param is 
-  // what the user state is of the 
-  // auth on our firebase project
-    // this.setState({currentUser:user})
-    // console.log(user)
-
-}
-
-componentWillUnmount(){
-  this.unsubscribeFromAuth();
-  //closing subscription
-}
-
-  render(){
   return (
     <div>
       <Header/>
@@ -74,7 +43,6 @@ componentWillUnmount(){
     </div>
     );
   }
-}
 
 const mapStateToProps = createStructuredSelector({
     currentUser:selectCurrentUser
