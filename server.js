@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const path = require('path')
+const compression = require('compression')
 
 if(process.env !== 'production') require ('dotenv').config()
 // if we are in development
@@ -26,7 +27,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 // url encoded: strings we're passing in dont
 // have percentages, etc
-
+app.use(compression())
 app.use(cors())
 // allow us to make requests from localhost 3000
 // to localhost 5000
