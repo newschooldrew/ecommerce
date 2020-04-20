@@ -23,6 +23,7 @@
     "reselect": "^4.0.0",
     "styled-components": "^5.1.0"
   },
+  "homepage" : "https://drews-shop.herokuapp.com/client/public/index.html",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
