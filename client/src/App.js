@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {createStructuredSelector} from 'reselect'
 import logo from './logo.svg';
 import './App.css';
-
+import ErrorBoundary from './components/error-boundary/error-boundary.component.jsx'
 import {selectCurrentUser} from './redux/user/user.selectors'
 import Header from './components/header/header.component.jsx'
 import { checkUserSession } from './redux/user/user.actions'
@@ -40,12 +40,14 @@ useEffect(() =>{
           + "pathname" gives us the full pathname
         */}
         <Switch>
-          <Suspense fallback={<Spinner />}>
-            <Route exact path='/' component={HomePage} />
-          <Route path='/shop' component={ShopPage} />
-          <Route exact path='/signin' render={() => this.props.currentUser ? <Redirect to='/' /> : <SignInAndSignUp />} />
-          <Route exact path='/checkout' component={CheckoutPage} />
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={<Spinner />}>
+              <Route exact path='/' component={HomePage} />
+              <Route path='/shop' component={ShopPage} />
+              <Route exact path='/signin' render={() => this.props.currentUser ? <Redirect to='/' /> : <SignInAndSignUp />} />
+              <Route exact path='/checkout' component={CheckoutPage} />
+            </Suspense>
+          </ErrorBoundary>
         </Switch>
     </div>
     );
