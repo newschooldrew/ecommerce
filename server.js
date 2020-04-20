@@ -4,7 +4,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const path = require('path')
 
-if(process.env !== 'production') require ('dotenv'.config)
+if(process.env !== 'production') require ('dotenv').config()
 // if we are in development
 // require in dotenv
 // process env can now access it
