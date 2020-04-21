@@ -11,6 +11,19 @@ if(process.env !== 'production') require ('dotenv').config()
 // process env can now access it
 // looks for .env in root
 
+// require is common JS
+const express = require('express')
+const cors = require('cors')
+const bodyParser = require('body-parser')
+const path = require('path')
+const compression = require('compression')
+
+if(process.env !== 'production') require ('dotenv').config()
+// if we are in development
+// require in dotenv
+// process env can now access it
+// looks for .env in root
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 // gives us back function with stripe secret key
 // as the first parameter
@@ -21,7 +34,15 @@ const app = express();
 const port = process.env.PORT || 5000;
 // localhost on 3000
 // server on 5000
-
+app.use(bodyParser.json())
+// process all requests to JSON
+app.use(bodyParser.urlencoded({extended:true}))
+// url encoded: strings we're passing in dont
+// have percentages, etc
+app.use(compression())
+app.use(cors())
+// allow us to make requests from localhost 3000
+// to localhost 5000
 app.use(bodyParser.json())
 // process all requests to JSON
 app.use(bodyParser.urlencoded({extended:true}))
